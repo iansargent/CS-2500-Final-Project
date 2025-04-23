@@ -26,7 +26,7 @@ cur.executemany(insert_records_super, super_contents)
 create_table_admissions = '''CREATE TABLE admissions('super_id', 'school_id', 'school_name', 'num_applicants', 'pct_accepted', 'incoming_class_size', 'avg_gpa', 'avg_SAT', 'pct_STEM')'''
 cur.execute(create_table_admissions)
 #put table into database
-admissions_file = open('CSVs/admissions_updated.csv')
+admissions_file = open('CSVs/admissions.csv')
 admissions_contents = csv.reader(admissions_file)
 header = next(admissions_contents)  ## throw away headers
 insert_records_admissions = "INSERT INTO admissions('super_id', 'school_id', 'school_name', 'num_applicants', 'pct_accepted', 'incoming_class_size', 'avg_gpa', 'avg_SAT', 'pct_STEM') VALUES(?,?,?,?,?,?,?,?,?)"
