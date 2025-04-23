@@ -1,0 +1,101 @@
+"super_id","school_id","school_name","num_applicants","pct_accepted","incoming_class_size","avg_gpa","avg_SAT","pct_STEM"
+"SUP1001",1,"Harvard University",45664,14.39,1617,3.69,1461,30.62
+"SUP1001",2,"Stanford University",23076,11.73,1014,3.98,1556,51.4
+"SUP1001",3,"MIT",33305,5.21,1430,3.69,1358,49.34
+"SUP1001",4,"Princeton University",27411,11.57,1979,3.77,1363,54.66
+"SUP1001",5,"Yale University",23595,12.39,1190,3.88,1598,48.29
+"SUP1002",6,"Columbia University",23651,10.87,1588,3.88,1497,47.11
+"SUP1002",7,"University of Chicago",3210,7.53,1512,3.74,1526,59.31
+"SUP1002",8,"California Institute of Technology",11737,9.56,1719,3.59,1496,55.46
+"SUP1002",9,"University of Pennsylvania",16713,14.19,1415,3.88,1398,37.95
+"SUP1002",10,"Duke University",19400,13.02,1231,3.73,1588,49
+"SUP1003",11,"University of California, Berkeley",42511,7.87,1463,3.91,1311,36.26
+"SUP1003",12,"University of Michigan",29250,5.69,1574,3.6,1416,43.67
+"SUP1003",13,"Northwestern University",46961,9.91,1156,3.65,1586,56.59
+"SUP1003",14,"University of California, Los Angeles",21718,6.26,1976,3.74,1469,41.36
+"SUP1003",15,"Cornell University",9574,9.46,1093,3.89,1395,33.38
+"SUP1004",16,"Johns Hopkins University",13621,9.88,1696,3.7,1589,44.04
+"SUP1004",17,"Brown University",15613,14.34,1315,3.87,1480,47.95
+"SUP1004",18,"University of Southern California",19620,13.43,1938,3.68,1324,47.63
+"SUP1004",19,"Georgetown University",27010,9.5,1924,3.63,1412,42.89
+"SUP1004",20,"New York University",48028,13.64,1022,3.97,1553,32.34
+"SUP1005",21,"Massachusetts Institute of Technology",44705,7.65,1516,3.72,1491,31.27
+"SUP1005",22,"California State University",38203,6.59,1386,3.86,1510,50.67
+"SUP1005",23,"Florida State University",22597,7.39,1165,3.61,1451,45.39
+"SUP1005",24,"University of Washington",8427,13.85,1043,3.76,1381,47.05
+"SUP1005",25,"University of Virginia",39508,5.54,1782,3.91,1402,42.55
+"SUP1006",26,"Rice University",15444,9.35,1222,3.61,1486,59.68
+"SUP1006",27,"University of Miami",19192,6.55,1921,3.57,1502,38.49
+"SUP1006",28,"Southern Methodist University",3506,11.69,1749,3.98,1359,33.69
+"SUP1006",29,"University of Texas at Austin",32348,14.91,1110,3.88,1521,58.06
+"SUP1006",30,"University of North Carolina",36259,9.49,1114,3.84,1507,32.34
+"SUP1007",31,"Vanderbilt University",34042,14.39,1114,3.84,1442,43.95
+"SUP1007",32,"University of Wisconsin-Madison",3465,9.12,1781,3.56,1306,56.52
+"SUP1007",33,"Boston College",40629,8.36,1995,3.74,1559,39.04
+"SUP1007",34,"University of Florida",7465,12.67,1734,3.88,1391,56.99
+"SUP1007",35,"Indiana University Bloomington",5306,7.97,1733,3.59,1465,55.33
+"SUP1008",36,"Purdue University",27211,5.2,1534,3.77,1314,43.34
+"SUP1008",37,"University of Illinois Urbana-Champaign",25880,13.38,1278,3.6,1398,40.83
+"SUP1008",38,"University of Arizona",39550,8.72,1507,3.59,1598,42.19
+"SUP1008",39,"Michigan State University",1530,13.6,1420,3.52,1558,30.36
+"SUP1008",40,"Pennsylvania State University",21507,9.14,1159,3.63,1394,46.86
+"SUP1009",41,"University of Maryland",39551,12.79,1719,3.84,1417,45.63
+"SUP1009",42,"University of Minnesota",38853,13.48,1933,3.93,1326,55.2
+"SUP1009",43,"Michigan Technological University",24247,11.8,1621,3.54,1479,38.45
+"SUP1009",44,"University of Kentucky",9939,5.17,1530,3.82,1544,57.57
+"SUP1009",45,"University of Pittsburgh",22947,11.95,1084,3.97,1354,46.14
+"SUP1010",46,"University of California, Davis",33554,7.86,1336,3.83,1544,39.15
+"SUP1010",47,"University of Georgia",11386,5,1607,3.74,1405,46.14
+"SUP1010",48,"University of Colorado Boulder",36412,10.31,1705,3.83,1461,45.55
+"SUP1010",49,"University of Alabama",35265,10.06,1348,3.74,1409,38.85
+"SUP1010",50,"University of Utah",8311,5.75,1101,3.72,1432,42.43
+"SUP1011",51,"University of Washington",5385,9.92,1401,3.94,1590,31.43
+"SUP1011",52,"Northwestern University",6611,6.11,1796,3.98,1434,52.03
+"SUP1011",53,"University of Michigan",47371,13.97,1553,3.76,1401,41.4
+"SUP1011",54,"University of Notre Dame",17456,6.21,1455,3.51,1359,41.23
+"SUP1011",55,"University of Chicago",42366,6.13,1045,3.89,1558,40
+"SUP1012",56,"University of California, Los Angeles",42904,7.36,1700,3.98,1438,31.19
+"SUP1012",57,"University of California, San Diego",9759,13.72,1213,3.81,1531,41.16
+"SUP1012",58,"University of Southern California",9483,6.19,1987,3.6,1410,30.9
+"SUP1012",59,"University of Pennsylvania",5725,7.53,1322,3.61,1330,46.94
+"SUP1012",60,"University of Virginia",15105,9.44,1000,3.63,1325,56.41
+"SUP1013",61,"University of Texas at Austin",4916,14.72,1567,3.99,1593,30.97
+"SUP1013",62,"University of Wisconsin-Madison",3528,7.14,1514,3.7,1331,59.27
+"SUP1013",63,"University of Florida",43207,5.53,1945,3.74,1356,34.35
+"SUP1013",64,"University of Georgia",4902,12.34,1104,3.58,1395,49.15
+"SUP1013",65,"University of Iowa",17996,9.09,1986,3.57,1383,36.47
+"SUP1014",66,"University of Kentucky",39077,11.28,1974,3.56,1455,32.3
+"SUP1014",67,"University of Utah",7708,9.3,1950,3.78,1591,39.55
+"SUP1014",68,"University of Tennessee",27076,12.07,1733,3.83,1417,59.91
+"SUP1014",69,"University of Arizona",26530,14.08,1807,3.69,1424,39.35
+"SUP1014",70,"University of Kansas",33000,9.73,1043,3.82,1590,39.88
+"SUP1015",71,"Boston College",4282,13.79,1583,3.57,1376,36.78
+"SUP1015",72,"University of Wisconsin",12992,5.87,1644,3.94,1457,49.89
+"SUP1015",73,"University of Oklahoma",29234,5.38,1860,3.58,1440,30.81
+"SUP1015",74,"University of Arizona",10112,9.23,1463,3.85,1359,53.83
+"SUP1015",75,"University of Oregon",20241,12.27,1952,3.68,1367,50.48
+"SUP1016",76,"University of Colorado Boulder",22732,5.66,1796,3.67,1471,59.71
+"SUP1016",77,"University of Minnesota",42823,7.93,1975,3.55,1542,49.98
+"SUP1016",78,"University of Maryland",17746,12.17,1605,3.72,1508,55.14
+"SUP1016",79,"University of Alabama",9570,9.89,1008,3.99,1419,55.93
+"SUP1016",80,"University of Pittsburgh",31420,12.76,1623,3.9,1577,49.32
+"SUP1017",81,"University of South Carolina",35836,12.06,1993,3.63,1316,42.26
+"SUP1017",82,"University of Missouri",26953,8.01,1966,3.56,1390,32.65
+"SUP1017",83,"University of Oklahoma",39552,10.75,1851,3.96,1411,39.84
+"SUP1017",84,"University of Kansas",7873,9.76,1854,3.59,1373,39.36
+"SUP1017",85,"University of Washington",40880,10.12,1561,3.77,1343,33.4
+"SUP1018",86,"University of Michigan",25763,5.84,1105,3.82,1392,33.3
+"SUP1018",87,"University of California, Davis",23334,8.48,1735,3.54,1351,46.17
+"SUP1018",88,"University of North Carolina",10699,14.64,1788,3.51,1442,54.19
+"SUP1018",89,"University of Chicago",37673,5.37,1773,3.85,1567,43.66
+"SUP1018",90,"University of Miami",23662,12.86,1124,3.78,1358,43.55
+"SUP1019",91,"University of Texas",45157,9.17,1427,3.75,1509,56.11
+"SUP1019",92,"University of Alabama",49904,6.18,1877,3.59,1399,48.17
+"SUP1019",93,"University of Iowa",47313,12.91,1724,3.94,1453,32.58
+"SUP1019",94,"University of Utah",10589,5.06,1335,3.67,1531,33.03
+"SUP1019",95,"University of Oregon",13073,6.58,1637,3.93,1446,55.29
+"SUP1020",96,"University of Toronto",1993,14.68,1209,3.67,1572,45.14
+"SUP1020",97,"University of Oxford",32680,12.63,1506,3.99,1406,40.2
+"SUP1020",98,"University of Cambridge",24767,9.7,1944,3.97,1304,31.48
+"SUP1020",99,"Australian National University",15191,12.85,1229,3.51,1523,47.15
+"SUP1020",100,"University of Melbourne",4264,5.44,1831,3.5,1562,46.94
