@@ -45,7 +45,7 @@ cur.executemany(insert_records_finance, finance_contents)
 
 
 #create demographics table
-create_table_demographic = '''CREATE TABLE Demographics ('super_id', 'school_id', 'num_undergrad', 'num_grad', 'pct_low_income', 'pct_international', 'pct_female', 'pct_male')'''
+create_table_demographic = '''CREATE TABLE demographics ('super_id', 'school_id', 'num_undergrad', 'num_grad', 'pct_low_income', 'pct_international', 'pct_female', 'pct_male')'''
 cur.execute(create_table_demographic)
 #put table into database
 demographic_file = open('CSVs/demographics.csv')
