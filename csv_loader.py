@@ -28,7 +28,7 @@ cur.executemany(insert_records_super, super_contents)
 
 
 # Create admissions table
-create_table_admissions = '''CREATE TABLE admissions('super_id', 'school_id', 'school_name', 'num_applicants', 'pct_accepted', 'incoming_class_size', 'avg_gpa', 'avg_SAT', 'pct_STEM')'''
+create_table_admissions = '''CREATE TABLE admissions('super_id', 'school_id', 'school_name', 'num_applicants' INTEGER, 'pct_accepted' REAL, 'incoming_class_size' INTEGER, 'avg_gpa' REAL, 'avg_SAT' REAL, 'pct_STEM' REAL)'''
 cur.execute(create_table_admissions)
 
 # Put table into database
@@ -41,7 +41,7 @@ cur.executemany(insert_records_admissions, admissions_contents)
 
 
 # Create finances table
-create_table_finance = '''CREATE TABLE finances('super_id', 'school_id', 'endowment', 'annual_expenses', 'debt', 'avg_faculty_salary')'''
+create_table_finance = '''CREATE TABLE finances('super_id', 'school_id', 'endowment' REAL, 'annual_expenses' REAL, 'debt' REAL, 'avg_faculty_salary' REAL)'''
 cur.execute(create_table_finance)
 
 # Put table into database
@@ -54,7 +54,7 @@ cur.executemany(insert_records_finance, finance_contents)
 
 
 # Create demographics table
-create_table_demographic = '''CREATE TABLE demographics ('super_id', 'school_id', 'num_undergrad', 'num_grad', 'pct_low_income', 'pct_international', 'pct_female', 'pct_male')'''
+create_table_demographic = '''CREATE TABLE demographics ('super_id', 'school_id', 'num_undergrad' INTEGER, 'num_grad' INTEGER, 'pct_low_income' REAL, 'pct_international' REAL, 'pct_female' REAL, 'pct_male' REAL)'''
 cur.execute(create_table_demographic)
 
 # Put table into database
