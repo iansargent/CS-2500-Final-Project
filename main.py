@@ -24,12 +24,13 @@ def standard_deviation(table, column):
     values = cur.execute(get_vals_query).fetchall()
     count_query = f"select COUNT({column}) from {table}"
     count = cur.execute(count_query).fetchall()[0][0]
+    print(count)
     running_variance = 0
     for i in values:
         val = i[0]
         deviation = (val - mean_value)**2
         running_variance += deviation
-    running_variance = running_variance/count
+    running_variance = running_variance/(count-1)
     standard_deviation_total = math.sqrt(running_variance)
     return  standard_deviation_total
 
@@ -56,7 +57,10 @@ def median(table, column):
         index = count/2 + .5
         return vals[index][0]
 
+#def where_statement()
+
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
+print(standard_deviation("admissions", "num_applicants"))
 
