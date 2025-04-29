@@ -15,7 +15,6 @@ cur.execute("DROP TABLE IF EXISTS finances;")
 cur.execute("DROP TABLE IF EXISTS demographics;")
 
 
-
 # Create superintendents table
 create_table_super = '''CREATE TABLE superintendents('super_id', 'first_name', 'last_name', 'city')'''
 cur.execute(create_table_super)
