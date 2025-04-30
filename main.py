@@ -4,8 +4,6 @@
 import sqlite3
 import csv
 import math
-import statistics
-
 ##adding records to superintendent table
 con = sqlite3.connect('private_schools.db', isolation_level=None)
 cur = con.cursor()
@@ -26,13 +24,12 @@ def standard_deviation(table, column):
     values = cur.execute(get_vals_query).fetchall()
     count_query = f"select COUNT({column}) from {table}"
     count = cur.execute(count_query).fetchall()[0][0]
-    print(count)
     running_variance = 0
     for i in values:
         val = i[0]
         deviation = (val - mean_value)**2
         running_variance += deviation
-    running_variance = running_variance/(count-1)
+    running_variance = running_variance/count
     standard_deviation_total = math.sqrt(running_variance)
     return  standard_deviation_total
 
@@ -59,30 +56,9 @@ def median(table, column):
         index = count/2 + .5
         return vals[index][0]
 
-def where_statement():
-    sign = input("less than (a), equals (b), or greater than (c): ")
-    print(f"what table do you want\n"
-                  f"a) admissions\n"
-                  f"b) demographics\n"
-                  f"c) finances\n"
-                  f"d) superintendents")
-    table = input("choice: ")
-    column = input("what column are you comparing to")
-    statement = f" "
-    return "hi"
-
-def print_sample_data(table):
-    sample_data_query = f"select * from {table}"
-    sample_data = cur.execute(sample_data_query).fetchall()
-    sample_data_list = []
-    for i in sample_data:
-        sample_data_list.append(i[0])
-    return sample_data_list
-
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
-print(standard_deviation("admissions", "num_applicants"))
 
 def stats_stdev(table, column):
     mean_value = mean(table, column)
