@@ -85,7 +85,8 @@ def where_function():
         if table not in ["admissions", "demographics", "finances", "superintendents"]:
             print("choose a table")
     print("your column choices")
-    print_columns(table)
+    for i in print_columns(table):
+        print(i)
     column = input("what column are you comparing to: ")
     type = ""
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
@@ -104,9 +105,10 @@ def where_function():
 
 def print_columns(table):
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    columns_list = []
     for i in columns_all:
-        print(i[1])
-
+        columns_list.append(i[1])
+    return columns_list
 
 
 def print_sample_data(table):
