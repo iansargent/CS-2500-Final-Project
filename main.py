@@ -82,17 +82,33 @@ def where_function():
     table  = ""
     while table not in ["admissions", "demographics", "finances", "superintendents"]:
         table = input("choice: ")
+        if table not in ["admissions", "demographics", "finances", "superintendents"]:
+            print("choose a table")
+    print("your column choices")
+    for i in print_columns(table):
+        print(i)
     column = input("what column are you comparing to: ")
-    sign_numeric = input("less than (a), equals (b), or greater than (c): ")
-    sign_non_numeric = input("equals (a), not equals (b): ")
+    type = ""
+    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    for i in columns_all:
+        if i[1] == (column):
+            if i[2] != "":
+                type = "numeric"
+            else:
+                type = "not numeric"
+    if type == "numeric":
+        sign_numeric = input("less than (a), equals (b), or greater than (c): ")
+    else:
+        sign_non_numeric = input("equals (a), not equals (b): ")
     statement = f" "
     return "hi"
 
 def print_columns(table):
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    columns_list = []
     for i in columns_all:
-        print(i[1])
-
+        columns_list.append(i[1])
+    return columns_list
 
 
 def print_sample_data(table):
@@ -103,6 +119,14 @@ def print_sample_data(table):
         sample_data_list.append(i[0])
     return sample_data_list
 
+
+
+
+print(min("admissions", "num_applicants"))
+print(median("admissions", "num_applicants"))
+print(mean("admissions", "num_applicants"))
+print_columns("finances")
+where_function()
 
 # Data Visualization Function
 
