@@ -4,10 +4,12 @@
 import sqlite3
 import csv
 import math
+
 ##adding records to superintendent table
 con = sqlite3.connect('private_schools.db', isolation_level=None)
 cur = con.cursor()
 list = []
+
 
 #table is string, column is string
 def mean(table, column):
@@ -17,6 +19,7 @@ def mean(table, column):
     sum = cur.execute(sum_query).fetchall()[0][0]
     avg = sum/count
     return avg
+
 
 def standard_deviation(table, column):
     mean_value = mean(table, column)
@@ -33,14 +36,19 @@ def standard_deviation(table, column):
     standard_deviation_total = math.sqrt(running_variance)
     return  standard_deviation_total
 
+
 def min(table, column):
     get_vals_query = f"select {column} from {table} order by {column} asc"
     vals = cur.execute(get_vals_query). fetchall()[0][0]
     return vals
+
+
 def max(table, column):
     get_vals_query = f"select {column} from {table} order by {column} desc"
     vals = cur.execute(get_vals_query). fetchall()[0][0]
     return vals
+
+
 def median(table, column):
     count_query = f"select COUNT({column}) from {table}"
     count = cur.execute(count_query).fetchall()[0][0]
@@ -59,19 +67,3 @@ def median(table, column):
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
-
-def stats_stdev(table, column):
-    mean_value = mean(table, column)
-    get_vals_query = f"select {column} from {table}"
-    values = cur.execute(get_vals_query).fetchall()
-    count_query = f"select COUNT({column}) from {table}"
-
-    for value in values:
-        list.append(value[0])
-    
-    print(statistics.stdev(list))
-
-
-stats_stdev("admissions", "num_applicants")
-
-print(standard_deviation("admissions", "num_applicants"))
