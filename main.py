@@ -82,9 +82,23 @@ def where_function():
     table  = ""
     while table not in ["admissions", "demographics", "finances", "superintendents"]:
         table = input("choice: ")
+        if table not in ["admissions", "demographics", "finances", "superintendents"]:
+            print("choose a table")
+    print("your column choices")
+    print_columns(table)
     column = input("what column are you comparing to: ")
-    sign_numeric = input("less than (a), equals (b), or greater than (c): ")
-    sign_non_numeric = input("equals (a), not equals (b): ")
+    type = ""
+    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    for i in columns_all:
+        if i[1] == (column):
+            if i[2] != "":
+                type = "numeric"
+            else:
+                type = "not numeric"
+    if type == "numeric":
+        sign_numeric = input("less than (a), equals (b), or greater than (c): ")
+    else:
+        sign_non_numeric = input("equals (a), not equals (b): ")
     statement = f" "
     return "hi"
 
@@ -106,11 +120,8 @@ def print_sample_data(table):
 
 
 
-
-
-
-
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
 print_columns("finances")
+where_function()
