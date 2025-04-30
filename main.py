@@ -85,25 +85,37 @@ def where_function():
         if table not in ["admissions", "demographics", "finances", "superintendents"]:
             print("choose a table")
     print("your column choices")
-    for i in print_columns(table):
+    for i in get_columns(table):
         print(i)
     column = input("what column are you comparing to: ")
     type = ""
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
     for i in columns_all:
-        if i[1] == (column):
+        if i[1] == column:
             if i[2] != "":
                 type = "numeric"
             else:
                 type = "not numeric"
+    sign = "="
     if type == "numeric":
         sign_numeric = input("less than (a), equals (b), or greater than (c): ")
+        if sign_numeric == "a":
+            sign = "<"
+        elif sign_numeric == "b":
+            sign = "="
+        else:
+            sign = ">"
     else:
         sign_non_numeric = input("equals (a), not equals (b): ")
-    statement = f" "
-    return "hi"
+        if sign_non_numeric == "a":
+            sign = "="
+        if sign_non_numeric == "b":
+            sign = "!="
+    user_value = input("finally, choose your value to compare things to: ")
+    statement = f"{table} WHERE {column} {sign} '{user_value}'"
+    return statement
 
-def print_columns(table):
+def get_columns(table):
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
     columns_list = []
     for i in columns_all:
@@ -164,3 +176,5 @@ data_visualization()
 
 
 
+print(get_columns("finances"))
+where_function()
