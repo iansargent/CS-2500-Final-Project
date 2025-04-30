@@ -15,14 +15,14 @@ cur.execute("DROP TABLE IF EXISTS finances;")
 cur.execute("DROP TABLE IF EXISTS demographics;")
 
 # Create superintendents table
-create_table_super = '''CREATE TABLE superintendents('super_id', 'first_name', 'last_name', 'city')'''
+create_table_super = '''CREATE TABLE superintendents('first_name', 'last_name','super_id', 'city')'''
 cur.execute(create_table_super)
 
 # Put table into database
 super_file = open('CSVs/superintendents.csv')
 super_contents = csv.reader(super_file)
 header = next(super_contents)  ## throw away headers
-insert_records_super = "INSERT INTO superintendents('super_id', 'first_name', 'last_name', 'city') VALUES(?, ?, ?, ?)"
+insert_records_super = "INSERT INTO superintendents('first_name', 'last_name', 'super_id', 'city') VALUES(?, ?, ?, ?)"
 cur.executemany(insert_records_super, super_contents)
 
 
