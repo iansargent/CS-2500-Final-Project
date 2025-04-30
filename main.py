@@ -3,6 +3,9 @@
 # Importing necessary packages
 import sqlite3
 import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import math
 
 from csv_loader import admissions_contents
@@ -113,7 +116,6 @@ def where_function():
             sign = "!="
     user_value = input("finally, choose your value to compare things to: ")
     statement = f"{table} WHERE {column} {sign} '{user_value}'"
-    print(statement)
     return statement
 
 def get_columns(table):
@@ -132,28 +134,217 @@ def print_sample_data(table):
         sample_data_list.append(i[0])
     return sample_data_list
 
-#join statements
+def get_column_type(table, column):
+    type = ""
+    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    for i in columns_all:
+        if i[1] == column:
+            if i[2] != "":
+                type = "numeric"
+            else:
+                type = "not numeric"
+    return type
 
-#this code does not do what its supposed to. it instead just finds the mean of the columns
-admissions_mean = []
-admissions_mean.append(mean("admissions", "num_applicants"))
-admissions_mean.append(mean("admissions", "pct_accepted"))
-admissions_mean.append(mean("admissions", "incoming_class_size"))
-admissions_mean.append(mean("admissions", "avg_GPA"))
-admissions_mean.append(mean("admissions", "avg_SAT"))
-admissions_mean.append(mean("admissions", "pct_STEM"))
+# Data Visualization Function
 
-print("mean of each option below")
-print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
-print(admissions_mean)
+def data_visualization():
+    
+    data_viz_flag = True
+    while data_viz_flag:
 
-super_join_admissions_statement1 = f"select superintendents.first_name, superintendents.last_name, sum(num_applicants)/count(school_id), sum(pct_accepted)/count(school_id), sum(incoming_class_size)/count(school_id) , sum(avg_GPA)/count(school_id)  , sum(avg_SAT)/count(school_id) , sum(pct_STEM)/count(school_id) from admissions  left join superintendents on admissions.super_id == superintendents.super_id group by superintendents.super_id"
-super_join_admissions1 = cur.execute(super_join_admissions_statement1).fetchall()
-print(super_join_admissions1)
+        table = input("Choose a category to investigate\na) Demographics\nb) Admissions\nc) Finances\n==> ")
+
+        if table == 'a':
+            table_name = "demographics"
+        elif table == 'b':
+            table_name = "admissions"
+        elif table == 'c':
+            table_name = "finances"
+        else:
+            print("Invalid choice. Please choose a valid category.")
 
 
-print(min("admissions", "num_applicants"))
-print(median("admissions", "num_applicants"))
-print(mean("admissions", "num_applicants"))
+        if table == "a":
+            print(f"\nPrinting available {table_name} variables")
+            dem_columns = get_columns("demographics")
+            for column in dem_columns:
+                print(column)
+            column_of_interest = input("Which column would you like to investigate? ")
+            column_type = get_column_type("demographics", column_of_interest)
+
+            if column_type == "numeric":
+                # Create a histogram
+                print(f"Creating histogram for {column_of_interest} in demographics")
+                histogram_query = f"SELECT {column_of_interest} FROM demographics"
+                histogram_data = cur.execute(histogram_query).fetchall()
+                histogram_data = pd.DataFrame(histogram_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.histplot(histogram_data[column_of_interest], bins=30, kde=True)
+                plt.title(f"Histogram of {column_of_interest} in Demographics")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Frequency")
+                plt.show()
+                # Create a boxplot
+                print(f"Creating boxplot for {column_of_interest} in demographics")
+                boxplot_query = f"SELECT {column_of_interest} FROM demographics"
+                boxplot_data = cur.execute(boxplot_query).fetchall()
+                boxplot_data = pd.DataFrame(boxplot_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.boxplot(x=boxplot_data[column_of_interest])
+                plt.title(f"Boxplot of {column_of_interest} in Demographics")
+                plt.xlabel(column_of_interest)
+                plt.show()
+            
+            elif column_type == "not numeric":
+                # Create a count plot
+                print(f"Creating count plot for {column_of_interest} in demographics")
+                count_query = f"SELECT {column_of_interest}, COUNT(*) FROM demographics GROUP BY {column_of_interest}"
+                count_data = cur.execute(count_query).fetchall()
+                count_data = pd.DataFrame(count_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                sns.countplot(x=column_of_interest, data=count_data)
+                plt.title(f"Count Plot of {column_of_interest} in Demographics")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Count")
+                plt.show()
+                # Create a pie chart
+                print(f"Creating pie chart for {column_of_interest} in demographics")
+                pie_query = f"SELECT {column_of_interest}, COUNT(*) FROM demographics GROUP BY {column_of_interest}"
+                pie_data = cur.execute(pie_query).fetchall()
+                pie_data = pd.DataFrame(pie_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                plt.pie(pie_data["Count"], labels=pie_data[column_of_interest], autopct='%1.1f%%', startangle=140)
+                plt.title(f"Pie Chart of {column_of_interest} in Demographics")
+                plt.axis('equal')
+                plt.show()
+            else:
+                print("Invalid column type. Please choose a numeric or non-numeric column.")
+                data_viz_flag = False
+        
+        elif table == "b":
+            print("\nPrinting available Admission variables")
+            dem_columns = get_columns("admissions")
+            for column in dem_columns:
+                print(column)
+            column_of_interest = input("Which column would you like to investigate? ")
+            column_type = get_column_type("admissions", column_of_interest)
+
+            if column_type == "numeric":
+                # Create a histogram
+                print(f"Creating histogram for {column_of_interest} in admissions")
+                histogram_query = f"SELECT {column_of_interest} FROM admissions"
+                histogram_data = cur.execute(histogram_query).fetchall()
+                histogram_data = pd.DataFrame(histogram_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.histplot(histogram_data[column_of_interest], bins=30, kde=True)
+                plt.title(f"Histogram of {column_of_interest} in Admissions")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Frequency")
+                plt.show()
+                # Create a boxplot
+                print(f"Creating boxplot for {column_of_interest} in admissions")
+                boxplot_query = f"SELECT {column_of_interest} FROM admissions"
+                boxplot_data = cur.execute(boxplot_query).fetchall()
+                boxplot_data = pd.DataFrame(boxplot_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.boxplot(x=boxplot_data[column_of_interest])
+                plt.title(f"Boxplot of {column_of_interest} in Admissions")
+                plt.xlabel(column_of_interest)
+                plt.show()
+            
+            elif column_type == "not numeric":
+                # Create a count plot
+                print(f"Creating count plot for {column_of_interest} in admissions")
+                count_query = f"SELECT {column_of_interest}, COUNT(*) FROM admissions GROUP BY {column_of_interest}"
+                count_data = cur.execute(count_query).fetchall()
+                count_data = pd.DataFrame(count_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                sns.countplot(x=column_of_interest, data=count_data)
+                plt.title(f"Count Plot of {column_of_interest} in Admissions")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Count")
+                plt.show()
+                # Create a pie chart
+                print(f"Creating pie chart for {column_of_interest} in admissions")
+                pie_query = f"SELECT {column_of_interest}, COUNT(*) FROM admissions GROUP BY {column_of_interest}"
+                pie_data = cur.execute(pie_query).fetchall()
+                pie_data = pd.DataFrame(pie_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                plt.pie(pie_data["Count"], labels=pie_data[column_of_interest], autopct='%1.1f%%', startangle=140)
+                plt.title(f"Pie Chart of {column_of_interest} in Admissions")
+                plt.axis('equal')
+                plt.show()
+            else:
+                print("Invalid column type. Please choose a numeric or non-numeric column.")
+                data_viz_flag = False
+
+        elif table == "c":
+            print("\nPrinting available financial variables")
+            dem_columns = get_columns("finances")
+            for column in dem_columns:
+                print(column)
+            column_of_interest = input("Which column would you like to investigate? ")
+            column_type = get_column_type("finances", column_of_interest)
+
+            if column_type == "numeric":
+                # Create a histogram
+                print(f"Creating histogram for {column_of_interest} in finances")
+                histogram_query = f"SELECT {column_of_interest} FROM finances"
+                histogram_data = cur.execute(histogram_query).fetchall()
+                histogram_data = pd.DataFrame(histogram_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.histplot(histogram_data[column_of_interest], bins=30, kde=True)
+                plt.title(f"Histogram of {column_of_interest} in Finances")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Frequency")
+                plt.show()
+                # Create a boxplot
+                print(f"Creating boxplot for {column_of_interest} in finances")
+                boxplot_query = f"SELECT {column_of_interest} FROM finances"
+                boxplot_data = cur.execute(boxplot_query).fetchall()
+                boxplot_data = pd.DataFrame(boxplot_data, columns=[column_of_interest])
+                plt.figure(figsize=(10, 6))
+                sns.boxplot(x=boxplot_data[column_of_interest])
+                plt.title(f"Boxplot of {column_of_interest} in Finances")
+                plt.xlabel(column_of_interest)
+                plt.show()
+            
+            elif column_type == "not numeric":
+                # Create a count plot
+                print(f"Creating count plot for {column_of_interest} in Finances")
+                count_query = f"SELECT {column_of_interest}, COUNT(*) FROM finances GROUP BY {column_of_interest}"
+                count_data = cur.execute(count_query).fetchall()
+                count_data = pd.DataFrame(count_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                sns.countplot(x=column_of_interest, data=count_data)
+                plt.title(f"Count Plot of {column_of_interest} in Finances")
+                plt.xlabel(column_of_interest)
+                plt.ylabel("Count")
+                plt.show()
+                # Create a pie chart
+                print(f"Creating pie chart for {column_of_interest} in Finances")
+                pie_query = f"SELECT {column_of_interest}, COUNT(*) FROM finances GROUP BY {column_of_interest}"
+                pie_data = cur.execute(pie_query).fetchall()
+                pie_data = pd.DataFrame(pie_data, columns=[column_of_interest, "Count"])
+                plt.figure(figsize=(10, 6))
+                plt.pie(pie_data["Count"], labels=pie_data[column_of_interest], autopct='%1.1f%%', startangle=140)
+                plt.title(f"Pie Chart of {column_of_interest} in Finances")
+                plt.axis('equal')
+                plt.show()
+            else:
+                print("Invalid column type. Please choose a numeric or non-numeric column.")
+                data_viz_flag = False
+        else:
+            print("That is not a valid table option. Try Again.")
+
+data_visualization()
+
+
+
+
+
+
+
+
 # print(get_columns("finances"))
 # where_function()
