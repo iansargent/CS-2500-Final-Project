@@ -4,10 +4,12 @@
 import sqlite3
 import csv
 import math
+import statistics
 
 ##adding records to superintendent table
 con = sqlite3.connect('private_schools.db', isolation_level=None)
 cur = con.cursor()
+list = []
 
 #table is string, column is string
 def mean(table, column):
@@ -82,3 +84,18 @@ print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
 print(standard_deviation("admissions", "num_applicants"))
 
+def stats_stdev(table, column):
+    mean_value = mean(table, column)
+    get_vals_query = f"select {column} from {table}"
+    values = cur.execute(get_vals_query).fetchall()
+    count_query = f"select COUNT({column}) from {table}"
+
+    for value in values:
+        list.append(value[0])
+    
+    print(statistics.stdev(list))
+
+
+stats_stdev("admissions", "num_applicants")
+
+print(standard_deviation("admissions", "num_applicants"))
