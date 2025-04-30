@@ -238,16 +238,37 @@ def data_visualization():
             print("Invalid column type. Please choose a numeric or non-numeric column.")
             data_viz_flag = False
         
-    
+if __name__ == "__main__":
+    main_flag = True
+    while main_flag:
+        print("Welcome to the Private School Data Analysis Tool!")
+        print("1. Modify Data")
+        print("2. Statistics")
+        print("3. Data Visualization")
+        print("4. Exit")
+        choice = input("Please choose an option (1-4): ")
 
-data_visualization()
+        if choice == '1':
+            print("hello")
+            # modify_table()
 
+        elif choice == '2':
+            table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
+            column = input("Enter the column name: ")
+            print(f"Mean of {column} in {table}: {mean(table, column)}")
+            print(f"Standard Deviation of {column} in {table}: {standard_deviation(table, column)}")
+            print(f"Minimum of {column} in {table}: {min(table, column)}")
+            print(f"Maximum of {column} in {table}: {max(table, column)}")
+            print(f"Median of {column} in {table}: {median(table, column)}")
+            
+            # statistical_summary()
 
+        elif choice == '3':
+            data_visualization()
+       
+        elif choice == '4':
+            data_viz_flag = False
+            print("Exiting the program. Goodbye!")
 
-
-
-
-
-
-# print(get_columns("finances"))
-# where_function()
+        else:
+            print("Invalid choice. Please try again.")
