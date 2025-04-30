@@ -60,6 +60,10 @@ def median(table, column):
         return vals[index][0]
 
 def where_statement():
+    print(f"how this works. You are going to create a where statement, "
+          f"basically specifying what subset of the data you want to look at, before you then use a "
+          f"summary function.\n"
+          f"if you pick a non-numeric column for your where stateent, you can only use an ")
     sign = input("less than (a), equals (b), or greater than (c): ")
     print(f"what table do you want\n"
                   f"a) admissions\n"
