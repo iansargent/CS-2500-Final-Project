@@ -5,6 +5,8 @@ import sqlite3
 import csv
 import math
 
+from csv_loader import admissions_contents
+
 ##adding records to superintendent table
 con = sqlite3.connect('private_schools.db', isolation_level=None)
 cur = con.cursor()
@@ -65,16 +67,32 @@ def median(table, column):
         return vals[index][0]
 
 def where_function():
-    sign = input("less than (a), equals (b), or greater than (c): ")
-    print(f"what table do you want\n"
-          f"a) admissions\n"
-          f"b) demographics\n"
-          f"c) finances\n"
-          f"d) superintendents")
-    table = input("choice: ")
-    column = input("what column are you comparing to")
+    print(f"this creates a where statement. What this means is that you can"
+          f"pick a column in a table, and then you filter the data based off of that column.\n"
+          f"if is a numeric column, then you can choose a number, and filter the data based off of"
+          f"where the value in that column is less than, equal, or greater than than the number you picked\n"
+          f"if you picked a non-numeric column, then you can choose a value, and filter based off of whether or "
+          f"not the data is equal to that value"
+          f"after all this, you can then do a statistical summary with this new, filtered dataset")
+    print(f"what table do you want: \n"
+          f"admissions\n"
+          f"demographics\n"
+          f"finances\n"
+          f"superintendents")
+    table  = ""
+    while table not in ["admissions", "demographics", "finances", "superintendents"]:
+        table = input("choice: ")
+    column = input("what column are you comparing to: ")
+    sign_numeric = input("less than (a), equals (b), or greater than (c): ")
+    sign_non_numeric = input("equals (a), not equals (b): ")
     statement = f" "
     return "hi"
+
+def print_columns(table):
+    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    for i in columns_all:
+        print(i[1])
+
 
 
 def print_sample_data(table):
@@ -85,9 +103,17 @@ def print_sample_data(table):
         sample_data_list.append(i[0])
     return sample_data_list
 
+
+
+
+
+
+
+
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
 print(mean("admissions", "num_applicants"))
+print_columns("finances")
 
 
 
