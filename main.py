@@ -57,7 +57,25 @@ def median(table, column):
         index = count/2 + .5
         return vals[index][0]
 
-#def where_statement()
+def where_statement():
+    sign = input("less than (a), equals (b), or greater than (c): ")
+    print(f"what table do you want\n"
+                  f"a) admissions\n"
+                  f"b) demographics\n"
+                  f"c) finances\n"
+                  f"d) superintendents")
+    table = input("choice: ")
+    column = input("what column are you comparing to")
+    statement = f" "
+    return "hi"
+
+def print_sample_data(table):
+    sample_data_query = f"select * from {table}"
+    sample_data = cur.execute(sample_data_query).fetchall()
+    sample_data_list = []
+    for i in sample_data:
+        sample_data_list.append(i[0])
+    return sample_data_list
 
 print(min("admissions", "num_applicants"))
 print(median("admissions", "num_applicants"))
