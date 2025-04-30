@@ -104,41 +104,39 @@ def print_sample_data(table):
     return sample_data_list
 
 
-
-
-
-
-
-
-print(min("admissions", "num_applicants"))
-print(median("admissions", "num_applicants"))
-print(mean("admissions", "num_applicants"))
-print_columns("finances")
-
-
-
 # Data Visualization Function
 
 def data_visualization():
     
     data_viz_flag = True
-    
     while data_viz_flag:
 
-        table = input("Choose an category\na) Demographics\nb) Admissions\nc) Finances\n==> ")
+        table = input("Choose a category to investigate\na) Demographics\nb) Admissions\nc) Finances\n==> ")
 
         if table == "a":
-            print("Printing available demographic variables")
+            print("\nPrinting available demographic variables")
             print_columns("demographics")
+            data_viz_flag = False
         
         elif table == "b":
             print("Printing available admission variables")
             print_columns("admissions")
-        
+            data_viz_flag = False
+
         elif table == "c":
             print("Printing available financial variables")
             print_columns("finances")
+            data_viz_flag = False
         
         else:
             print("That is not a valid table option. Try Again.")
-    
+
+data_visualization()
+
+
+
+
+
+
+
+
