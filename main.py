@@ -145,6 +145,26 @@ def get_column_type(table, column):
                 type = "not numeric"
     return type
 
+#join statements
+
+#this code does not do what its supposed to. it instead just finds the mean of the columns
+admissions_mean = []
+admissions_mean.append(mean("admissions", "num_applicants"))
+admissions_mean.append(mean("admissions", "pct_accepted"))
+admissions_mean.append(mean("admissions", "incoming_class_size"))
+admissions_mean.append(mean("admissions", "avg_GPA"))
+admissions_mean.append(mean("admissions", "avg_SAT"))
+admissions_mean.append(mean("admissions", "pct_STEM"))
+
+print("mean of each option below")
+print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
+print(admissions_mean)
+
+super_join_admissions_statement1 = f"select superintendents.first_name, superintendents.last_name, sum(num_applicants)/count(school_id), sum(pct_accepted)/count(school_id), sum(incoming_class_size)/count(school_id) , sum(avg_GPA)/count(school_id)  , sum(avg_SAT)/count(school_id) , sum(pct_STEM)/count(school_id) from admissions  left join superintendents on admissions.super_id == superintendents.super_id group by superintendents.super_id"
+super_join_admissions1 = cur.execute(super_join_admissions_statement1).fetchall()
+print(super_join_admissions1)
+
+
 # Data Visualization Function
 
 def data_visualization():
