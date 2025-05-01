@@ -353,5 +353,3 @@ def data_visualization():
 #
 #         else:
 #             print("Invalid choice. Please try again.")
-
-data_visualization()
