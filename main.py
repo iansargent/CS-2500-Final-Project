@@ -255,14 +255,14 @@ def data_visualization():
         # Get the columns of the selected table
         dem_columns = get_columns(table_name)
         
-        # Print the variables
+        # Print the columns
         print("\nAvailable columns:\n_________________")
         for column in dem_columns:
             print(column)
         
         # User input for the column of interest
         column_of_interest = input("\nWhich column would you like to investigate? ")
-        # Confirm coluns type for the correct plots to show
+        # Confirm selected column type for the correct plots to show
         column_type = get_column_type(table_name, column_of_interest)
 
         # For the numeric column, create a histogram and boxplot
