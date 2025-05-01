@@ -44,13 +44,13 @@ def standard_deviation(table, column):
 
 def min(table, column):
     get_vals_query = f"select {column} from {table} order by {column} asc"
-    vals = cur.execute(get_vals_query). fetchall()[0][0]
+    vals = cur.execute(get_vals_query).fetchall()[0][0]
     return vals
 
 
 def max(table, column):
     get_vals_query = f"select {column} from {table} order by {column} desc"
-    vals = cur.execute(get_vals_query). fetchall()[0][0]
+    vals = cur.execute(get_vals_query).fetchall()[0][0]
     return vals
 
 
@@ -58,7 +58,7 @@ def median(table, column):
     count_query = f"select COUNT({column}) from {table}"
     count = cur.execute(count_query).fetchall()[0][0]
     get_vals_query = f"select {column} from {table} order by {column} desc"
-    vals = cur.execute(get_vals_query). fetchall()
+    vals = cur.execute(get_vals_query).fetchall()
     if count % 2 == 0:
          index = count//2
          index_1 = index
@@ -148,21 +148,69 @@ def get_column_type(table, column):
 #join statements
 
 #this code does not do what its supposed to. it instead just finds the mean of the columns
-admissions_mean = []
-admissions_mean.append(mean("admissions", "num_applicants"))
-admissions_mean.append(mean("admissions", "pct_accepted"))
-admissions_mean.append(mean("admissions", "incoming_class_size"))
-admissions_mean.append(mean("admissions", "avg_GPA"))
-admissions_mean.append(mean("admissions", "avg_SAT"))
-admissions_mean.append(mean("admissions", "pct_STEM"))
+def mean_of_columns(table):
+    means = []
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            means.append(mean(table, i))
+    return means
 
-print("mean of each option below")
-print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
-print(admissions_mean)
+def median_of_columns(table):
+    medians = []
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            medians.append(median(table, i))
+    return medians
 
-super_join_admissions_statement1 = f"select superintendents.first_name, superintendents.last_name, sum(num_applicants)/count(school_id), sum(pct_accepted)/count(school_id), sum(incoming_class_size)/count(school_id) , sum(avg_GPA)/count(school_id)  , sum(avg_SAT)/count(school_id) , sum(pct_STEM)/count(school_id) from admissions  left join superintendents on admissions.super_id == superintendents.super_id group by superintendents.super_id"
-super_join_admissions1 = cur.execute(super_join_admissions_statement1).fetchall()
-print(super_join_admissions1)
+def std_of_columns(table):
+    std = []
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            std.append(standard_deviation(table, i))
+    return std
+
+def min_of_columns(table):
+    mins = []
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            mins.append(min(table, i))
+    return mins
+
+def max_of_columns(table):
+    maxs = []
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            maxs.append(max(table, i))
+    return maxs
+
+
+#checking to see things work
+# print("mean of each option below")
+# print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
+# print(max_of_columns("admissions"))
+
+
+
+def mean_join_with_superintendents(table):
+    super_join_admissions_statement = f"select superintendents.first_name, superintendents.last_name"
+
+    columns = get_columns(table)
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            super_join_admissions_statement += f",sum({i})/count(school_id)"
+            print ("hi")
+    super_join_admissions_statement += f"from {table} left join superintendents on {table}.super_id == superintendents.super_id group by superintendents.super_id"
+    return_statement = cur.execute(super_join_admissions_statement).fetchall()
+    return return_statement
+
+# print(mean_join_with_superintendents("admissions"))
+
+
 
 
 # Data Visualization Function
@@ -238,37 +286,37 @@ def data_visualization():
             print("Invalid column type. Please choose a numeric or non-numeric column.")
             data_viz_flag = False
         
-if __name__ == "__main__":
-    main_flag = True
-    while main_flag:
-        print("Welcome to the Private School Data Analysis Tool!")
-        print("1. Modify Data")
-        print("2. Statistics")
-        print("3. Data Visualization")
-        print("4. Exit")
-        choice = input("Please choose an option (1-4): ")
-
-        if choice == '1':
-            print("hello")
-            # modify_table()
-
-        elif choice == '2':
-            table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
-            column = input("Enter the column name: ")
-            print(f"Mean of {column} in {table}: {mean(table, column)}")
-            print(f"Standard Deviation of {column} in {table}: {standard_deviation(table, column)}")
-            print(f"Minimum of {column} in {table}: {min(table, column)}")
-            print(f"Maximum of {column} in {table}: {max(table, column)}")
-            print(f"Median of {column} in {table}: {median(table, column)}")
-            
-            # statistical_summary()
-
-        elif choice == '3':
-            data_visualization()
-       
-        elif choice == '4':
-            data_viz_flag = False
-            print("Exiting the program. Goodbye!")
-
-        else:
-            print("Invalid choice. Please try again.")
+# if __name__ == "__main__":
+#     main_flag = True
+#     while main_flag:
+#         print("Welcome to the Private School Data Analysis Tool!")
+#         print("1. Modify Data")
+#         print("2. Statistics")
+#         print("3. Data Visualization")
+#         print("4. Exit")
+#         choice = input("Please choose an option (1-4): ")
+#
+#         if choice == '1':
+#             print("hello")
+#             # modify_table()
+#
+#         elif choice == '2':
+#             table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
+#             column = input("Enter the column name: ")
+#             print(f"Mean of {column} in {table}: {mean(table, column)}")
+#             print(f"Standard Deviation of {column} in {table}: {standard_deviation(table, column)}")
+#             print(f"Minimum of {column} in {table}: {min(table, column)}")
+#             print(f"Maximum of {column} in {table}: {max(table, column)}")
+#             print(f"Median of {column} in {table}: {median(table, column)}")
+#
+#             # statistical_summary()
+#
+#         elif choice == '3':
+#             data_visualization()
+#
+#         elif choice == '4':
+#             data_viz_flag = False
+#             print("Exiting the program. Goodbye!")
+#
+#         else:
+#             print("Invalid choice. Please try again.")
