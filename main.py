@@ -203,13 +203,31 @@ def mean_join_with_superintendents(table):
     for i in columns:
         if get_column_type(table, i) == "numeric":
             super_join_admissions_statement += f",sum({i})/count(school_id)"
-            print ("hi")
     super_join_admissions_statement += f"from {table} left join superintendents on {table}.super_id == superintendents.super_id group by superintendents.super_id"
     return_statement = cur.execute(super_join_admissions_statement).fetchall()
     return return_statement
 
+#testing to see if this works
 # print(mean_join_with_superintendents("admissions"))
 
+# modify data function (assuming only numeric data
+#also assuming not superintendent
+def modify_table_non_super(table):
+    columns = get_columns(table)
+    columns_numeric = [] #these are the columns that can be modified
+    for i in columns:
+        if get_column_type(table, i) == "numeric":
+            columns_numeric.append(i)
+    user_data_q = input("Hello user. do you need access to the database to find the school id of the"
+          "school you want modify (y/n): ")
+    if user_data_q == 'y':
+        print_sample_data(table)
+    school_id_chosen = input("hello user. please enter the school id of the school whose data you want to modify: ")
+
+    return "hi"
+
+def add_row():
+    return "poop :)"
 
 
 
