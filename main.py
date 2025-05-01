@@ -189,7 +189,7 @@ def max_of_columns(table):
     return maxs
 
 
-#checking to see things work
+# checking to see things work
 # print("mean of each option below")
 # print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
 # print(max_of_columns("admissions"))
@@ -233,76 +233,91 @@ def add_row():
 
 # Data Visualization Function
 def data_visualization():
+    # Flag to exit the loop once comepleted
     data_viz_flag = True
     while data_viz_flag:
+        
+        # User input for the table of interest
+        table = input("Choose a category to investigate\na) Demographics\nb) Admissions\nc) Finances\nd) Superintendents\nd==> ")
 
-        table = input("Choose a category to investigate\na) Demographics\nb) Admissions\nc) Finances\n==> ")
-
+        # Reassign input selection to the table name
         if table == 'a':
             table_name = "demographics"
         elif table == 'b':
             table_name = "admissions"
         elif table == 'c':
             table_name = "finances"
+        elif table == 'd':
+            table_name = "superintendents"
         else:
             print("Invalid choice. Please choose a valid category.")
-
-
-        print(f"\nPrinting available '{table_name}' table variables")
+        
+        # Get the columns of the selected table
         dem_columns = get_columns(table_name)
+        
+        # Print the variables
+        print("\nAvailable columns:\n_________________")
         for column in dem_columns:
             print(column)
-        column_of_interest = input("Which column would you like to investigate? ")
+        
+        # User input for the column of interest
+        column_of_interest = input("\nWhich column would you like to investigate? ")
+        # Confirm coluns type for the correct plots to show
         column_type = get_column_type(table_name, column_of_interest)
 
+        # For the numeric column, create a histogram and boxplot
         if column_type == "numeric":
-            # Create a histogram
-            print(f"Creating histogram for {column_of_interest} in {table_name}")
-            histogram_query = f"SELECT {column_of_interest} FROM {table_name}"
-            histogram_data = cur.execute(histogram_query).fetchall()
-            histogram_data = pd.DataFrame(histogram_data, columns=[column_of_interest])
+            # Creating a dataframe for the histogram and boxplot
+            num_plot_query = f"SELECT {column_of_interest} FROM {table_name}"
+            num_plot_data = cur.execute(num_plot_query).fetchall()
+            num_plot_data = pd.DataFrame(num_plot_data, columns=[column_of_interest])
+            
+            # Create the histogram
             plt.figure(figsize=(10, 6))
-            sns.histplot(histogram_data[column_of_interest], bins=30, kde=True)
+            sns.histplot(num_plot_data[column_of_interest], bins=30, kde=True)
             plt.title(f"Histogram of {column_of_interest} in {table_name}")
             plt.xlabel(column_of_interest)
             plt.ylabel("Frequency")
             plt.show()
-            # Create a boxplot
-            print(f"Creating boxplot for {column_of_interest} in {table_name}")
-            boxplot_query = f"SELECT {column_of_interest} FROM {table_name}"
-            boxplot_data = cur.execute(boxplot_query).fetchall()
-            boxplot_data = pd.DataFrame(boxplot_data, columns=[column_of_interest])
+            
+            # Create the boxplot
             plt.figure(figsize=(10, 6))
-            sns.boxplot(x=boxplot_data[column_of_interest])
+            sns.boxplot(x=num_plot_data[column_of_interest])
             plt.title(f"Boxplot of {column_of_interest} in {table_name}")
             plt.xlabel(column_of_interest)
             plt.show()
-            
+
+            # Exiting the loop
+            data_viz_flag = False    
+
         elif column_type == "not numeric":
-            # Create a count plot
-            print(f"Creating count plot for {column_of_interest} in {table_name}")
+            
+            # Creating a dataframe for the count plot and pie chart
             count_query = f"SELECT {column_of_interest}, COUNT(*) FROM {table_name} GROUP BY {column_of_interest}"
             count_data = cur.execute(count_query).fetchall()
             count_data = pd.DataFrame(count_data, columns=[column_of_interest, "Count"])
+            
+            # Create the count plot
             plt.figure(figsize=(10, 6))
             sns.countplot(x=column_of_interest, data=count_data)
             plt.title(f"Count Plot of {column_of_interest} in {table_name}")
             plt.xlabel(column_of_interest)
             plt.ylabel("Count")
             plt.show()
-            # Create a pie chart
-            print(f"Creating pie chart for {column_of_interest} in {table_name}")
-            pie_query = f"SELECT {column_of_interest}, COUNT(*) FROM {table_name} GROUP BY {column_of_interest}"
-            pie_data = cur.execute(pie_query).fetchall()
-            pie_data = pd.DataFrame(pie_data, columns=[column_of_interest, "Count"])
+            
+            # Create the pie chart
             plt.figure(figsize=(10, 6))
-            plt.pie(pie_data["Count"], labels=pie_data[column_of_interest], autopct='%1.1f%%', startangle=140)
+            plt.pie(count_data["Count"], labels=count_data[column_of_interest], autopct='%1.1f%%', startangle=140)
             plt.title(f"Pie Chart of {column_of_interest} in {table_name}")
             plt.axis('equal')
             plt.show()
+
+            # Exiting the loop
+            data_viz_flag = False
+        
         else:
             print("Invalid column type. Please choose a numeric or non-numeric column.")
-            data_viz_flag = False
+            
         
 # if __name__ == "__main__":
 #     main_flag = True
@@ -338,3 +353,5 @@ def data_visualization():
 #
 #         else:
 #             print("Invalid choice. Please try again.")
+
+data_visualization()
