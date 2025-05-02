@@ -220,7 +220,6 @@ def modify_table_non_super(table):
         if get_column_type(table, i) == "numeric":
             columns_numeric.append(i)
             print(i)
-    user_data_q = input("Hello user. do you need access to the database to find the school id of the"
     user_data_q = input("Hello user. Do you need access to the database to find the school id of the"
           "school you want modify (y/n): ")
     if user_data_q == 'y':
