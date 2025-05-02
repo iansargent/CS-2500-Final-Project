@@ -130,8 +130,13 @@ def print_sample_data(table):
     sample_data_query = f"select * from {table}"
     sample_data = cur.execute(sample_data_query).fetchall()
     sample_data_list = []
+    print("column names: ", end = "  ")
+    for i in get_columns(table):
+        print(i, end=" ")
+    print("")
     for i in sample_data:
-        sample_data_list.append(i[0])
+        sample_data_list.append(i)
+        print(i)
     return sample_data_list
 
 def get_column_type(table, column):
