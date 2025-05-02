@@ -90,7 +90,7 @@ def where_function():
     print("your column choices")
     for i in get_columns(table):
         print(i)
-    column = input("what column are you comparing to: ")
+    column = input("What column are you comparing to: ")
     type = ""
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
     for i in columns_all:
@@ -114,7 +114,7 @@ def where_function():
             sign = "="
         if sign_non_numeric == "b":
             sign = "!="
-    user_value = input("finally, choose your value to compare things to: ")
+    user_value = input("Finally, choose your value to compare things to: ")
     statement = f"{table} WHERE {column} {sign} '{user_value}'"
     return statement
 
