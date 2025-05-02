@@ -434,8 +434,23 @@ if __name__ == "__main__":
         choice = input("Please choose an option (1-4): ")
 
         if choice == '1':
-            print("hello")
-            # modify_table()
+            table = input("\nWhich table would you like to modify?\n1. Admissions\n2. Demographics\n3. Finances\n4. Superintendents\n==> ")
+            if table == '1':
+                table = "admissions"
+            elif table == '2':
+                table = "demographics"
+            elif table == '3':
+                table = "finances"
+            elif table == '4':
+                table = "superintendents"
+            else:
+                print("Invalid choice. Please choose a valid table.")
+
+            
+            if table == "superintendents":
+                modify_table_super()
+            else:
+                modify_table_non_super(table)
 
         elif choice == '2':
             statistical_summary()
