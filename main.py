@@ -257,11 +257,11 @@ def add_row(table):
             user_input = input(f"Input a value for column {i}: ")
             make_new_line += f"{i},"
             user_inputs.append(user_input)
-        make_new_line.pop()
+        make_new_line = make_new_line[:-1]
         make_new_line += ") VALUES ("
         for i in user_inputs:
             make_new_line += f"{i},"
-        make_new_line.pop()
+        make_new_line = make_new_line[:-1]
         make_new_line+=")'"
         cur.execute(make_new_line)
     return "poop :)"
