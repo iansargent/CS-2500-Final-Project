@@ -215,16 +215,69 @@ def mean_join_with_superintendents(table):
 def modify_table_non_super(table):
     columns = get_columns(table)
     columns_numeric = [] #these are the columns that can be modified
+    print("here are the columns you can modify")
     for i in columns:
         if get_column_type(table, i) == "numeric":
             columns_numeric.append(i)
+            print(i)
     user_data_q = input("Hello user. Do you need access to the database to find the school id of the"
           "school you want modify (y/n): ")
     if user_data_q == 'y':
         print_sample_data(table)
     school_id_chosen = input("hello user. please enter the school id of the school whose data you want to modify: ")
-
+    adding_new_info = True
+    column = ""
+    new_info = ""
+    while adding_new_info:
+        input_columns = True
+        while input_columns == True:
+            column = input("which info would you like to edit: ")
+            if column not in columns_numeric:
+                print("please input a column you can modify")
+            else:
+                input_columns = False
+        new_info = input(f"what would you like to set {column} to: ")
+        update_info_to = f"UPDATE {table} SET {column} = '{new_info}' WHERE school_id = '{school_id_chosen}';"
+        try:
+            cur.execute(update_info_to)
+            adding_new_info = False
+        except sqlite3.OperationalError:
+            print("Data was entered incorrectly, try again")
+    print(f"you updated {column} by making its new value {new_info} for the school with school id {school_id_chosen}")
     return "hi"
+
+def modify_table_super():
+    user_data_q = input("Hello user. do you need access to the database to find the super_id of the"
+                        "superintendent you want modify (y/n): ")
+    if user_data_q == 'y':
+        print_sample_data("superintendents")
+    columns_to_edit = ['first_name', 'last_name', 'city']
+    print("here are the columns you can modify")
+    for i in columns_to_edit:
+        print(i)
+    school_id_chosen = input("hello user. please enter the super_id of the superintendent whose data you want to modify: ")
+    adding_new_info = True
+    column = ""
+    new_info = ""
+    while adding_new_info:
+        input_columns = True
+        while input_columns:
+            column = input("which info would you like to edit: ")
+            if column not in columns_to_edit:
+                print("please input a column you can modify")
+            else:
+                input_columns = False
+        new_info = input(f"what would you like to set {column} to: ")
+        update_info_to = f"UPDATE superintendent SET {column} = '{new_info}' WHERE school_id = '{school_id_chosen}';"
+        try:
+            cur.execute(update_info_to)
+            adding_new_info = False
+        except sqlite3.OperationalError:
+            print("Data was entered incorrectly, try again")
+    print(f"you updated {column} by making its new value {new_info} for the superintendent with super_id {school_id_chosen}")
+    return "hi"
+
+
 
 def add_row():
     return "poop :)"
