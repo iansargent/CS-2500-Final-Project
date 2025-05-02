@@ -236,8 +236,8 @@ def modify_table_non_super(table):
                 print("Please input a column you can modify")
             else:
                 input_columns = False
-        new_info = input(f"What would you like to set {column} to: ")
-        update_info_to = f"UPDATE {table} SET {column} = {new_info} WHERE school_id = '{school_id_chosen}';"
+        new_info = input(f"what would you like to set {column} to: ")
+        update_info_to = f"UPDATE {table} SET {column} = {new_info} WHERE school_id = {school_id_chosen};"
         try:
             cur.execute(update_info_to)
             adding_new_info = False
@@ -268,7 +268,7 @@ def modify_table_super():
             else:
                 input_columns = False
         new_info = input(f"what would you like to set {column} to: ")
-        update_info_to = f"UPDATE superintendent SET {column} = {new_info} WHERE super_id = '{school_id_chosen}';"
+        update_info_to = f"UPDATE superintendent SET {column} = {new_info} WHERE super_id = {school_id_chosen};"
         try:
             cur.execute(update_info_to)
             adding_new_info = False
