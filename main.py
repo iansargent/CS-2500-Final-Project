@@ -236,14 +236,14 @@ def modify_table_non_super(table):
                 print("Please input a column you can modify")
             else:
                 input_columns = False
-        new_info = input(f"what would you like to set {column} to: ")
+        new_info = input(f"What would you like to set {column} to: ")
         update_info_to = f"UPDATE {table} SET {column} = {new_info} WHERE school_id = '{school_id_chosen}';"
         try:
             cur.execute(update_info_to)
             adding_new_info = False
         except sqlite3.OperationalError:
             print("Data was entered incorrectly. Please try again.")
-    print(f"you updated {column} by making its new value {new_info} for the school with school id {school_id_chosen}")
+    print(f"You updated {column} by making its new value {new_info} for the school with school id {school_id_chosen}")
     return "hi"
 
 def modify_table_super():
@@ -252,10 +252,10 @@ def modify_table_super():
     if user_data_q == 'y':
         print_sample_data("superintendents")
     columns_to_edit = ['first_name', 'last_name', 'city']
-    print("here are the columns you can modify")
+    print("Here are the columns you can modify")
     for i in columns_to_edit:
         print(i)
-    school_id_chosen = input("hello user. please enter the super_id of the superintendent whose data you want to modify: ")
+    school_id_chosen = input("Hello user. Please enter the super_id of the superintendent whose data you want to modify: ")
     adding_new_info = True
     column = ""
     new_info = ""
