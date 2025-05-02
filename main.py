@@ -285,9 +285,24 @@ def modify_table_super():
 
 
 
-def add_row():
-    return "poop :)"
+def add_row(table):
+    cols = get_columns(table)
+    user_inputs = []
+    make_new_line = (f"INSERT INTO {table}(")
+    for i in cols:
+        user_input = input(f"Input a value for column {i}: ")
+        make_new_line += f"{i},"
+        user_inputs.append(user_input)
+    make_new_line.pop()
+    make_new_line += ") VALUES ("
+    for i in user_inputs:
+        make_new_line += f"{i},"
+    make_new_line.pop()
+    make_new_line+=")'"
+    cur.execute(make_new_line)
 
+    return "poop :)"
+print(get_columns("admissions"))
 # Statistical summary function
 def statistical_summary():
     print("\nChoose a table to analyze:\n1. Admissions\n2. Demographics\n3. Finances\n4. Superintendents")
