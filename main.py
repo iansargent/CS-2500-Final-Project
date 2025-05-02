@@ -73,7 +73,7 @@ def median(table, column):
 
     else:
         index = count/2 + .5
-        return vals[index][0]
+        return vals[int(index)][0]
 
 
 # Function to prodice "where" statement queries
@@ -174,6 +174,12 @@ def mean_join_with_superintendents(table):
             super_join_admissions_statement += f",sum({i})/count(school_id)"
     super_join_admissions_statement += f"from {table} left join superintendents on {table}.super_id == superintendents.super_id group by superintendents.super_id"
     return_statement = cur.execute(super_join_admissions_statement).fetchall()
+    print("this is the averages of these columns : ", end="  ")
+    for i in get_columns(table):
+        print(i, end=" ")
+    print("for each superintendent")
+    for i in return_statement:
+        print(i)
     return return_statement
 
 
@@ -452,6 +458,18 @@ def main():
         # If the user chooses statistics, call the statistical_summary function
         elif choice == '2':
             statistical_summary()
+            table = input(
+                "\nWhich table would you like to join to superintendents?\n1. Admissions\n2. Demographics\n3. Finances\n==> ")
+            if table == '1':
+                table = "admissions"
+            elif table == '2':
+                table = "demographics"
+            elif table == '3':
+                table = "finances"
+            else:
+                print("Invalid choice. Please choose a valid table.")
+            mean_join_with_superintendents(table)
+
         
         # If the user chooses data visualization, call the data_visualization function
         elif choice == '3':
