@@ -283,6 +283,19 @@ def add_row(table):
     
     return "poop :)"
 
+def remove_row(table):
+    remove_rows = input("Do you want to remove a row y/n: ")
+    if table == "superintendent":
+        super_id = input("enter the super_id of the person you want to remove: ")
+        remove_rows_query = f"DELETE FROM {table} where super_id = '{super_id}'"
+    else:
+        school_id = input("enter the school of the school you want to remove: ")
+        remove_rows_query = f"DELETE FROM {table} where school_id = '{school_id}'"
+    cur.execute(remove_rows_query)
+
+
+
+
 # Statistical summary function
 def statistical_summary():
     print("\nChoose a table to analyze:\n1. Admissions\n2. Demographics\n3. Finances\n4. Superintendents")
