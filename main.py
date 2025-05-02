@@ -221,6 +221,7 @@ def modify_table_non_super(table):
             columns_numeric.append(i)
             print(i)
     user_data_q = input("Hello user. do you need access to the database to find the school id of the"
+    user_data_q = input("Hello user. Do you need access to the database to find the school id of the"
           "school you want modify (y/n): ")
     if user_data_q == 'y':
         print_sample_data(table)
@@ -258,6 +259,36 @@ def add_row():
     return "poop :)"
 
 
+def statistical_summary():
+    table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
+    available_columns = get_columns(table)
+    print("\nAvailable columns:\n_________________")
+
+    for column in available_columns:
+        print(column)
+
+    column = input("\nEnter the column name: ")
+    col_type = get_column_type(table, column)
+
+    if col_type == "not numeric":
+        print(f"\nStatistics for {column} in {table}:")
+        print("_______________________________")
+        print(f"\nCount: {cur.execute(f'SELECT COUNT({column}) FROM {table}').fetchone()[0]}")
+        print(f"\nUnique Values: {cur.execute(f'SELECT COUNT(DISTINCT {column}) FROM {table}').fetchone()[0]}")
+        print(f"\nMost Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) DESC LIMIT 1').fetchone()}")
+        print(f"\nLeast Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) ASC LIMIT 1').fetchone()}\n")
+
+    elif col_type == "numeric":
+        print(f"\nStatistics for {column} in {table}:")
+        print("_______________________________")
+        print(f"\nMean: {mean(table, column)}")
+        print(f"\nStandard Deviation: {standard_deviation(table, column):.2f}")
+        print(f"\nMinimum: {min(table, column)}")
+        print(f"\nMaximum: {max(table, column)}")
+        print(f"\nMedian: {median(table, column)}\n")
+
+    else:
+        print("Invalid column type. Please choose a numeric or non-numeric column.")
 
 # Data Visualization Function
 def data_visualization():
@@ -281,11 +312,11 @@ def data_visualization():
             print("Invalid choice. Please choose a valid category.")
         
         # Get the columns of the selected table
-        dem_columns = get_columns(table_name)
+        available_columns = get_columns(table_name)
         
         # Print the columns
         print("\nAvailable columns:\n_________________")
-        for column in dem_columns:
+        for column in available_columns:
             print(column)
         
         # User input for the column of interest
@@ -347,37 +378,29 @@ def data_visualization():
             print("Invalid column type. Please choose a numeric or non-numeric column.")
             
         
-# if __name__ == "__main__":
-#     main_flag = True
-#     while main_flag:
-#         print("Welcome to the Private School Data Analysis Tool!")
-#         print("1. Modify Data")
-#         print("2. Statistics")
-#         print("3. Data Visualization")
-#         print("4. Exit")
-#         choice = input("Please choose an option (1-4): ")
-#
-#         if choice == '1':
-#             print("hello")
-#             # modify_table()
-#
-#         elif choice == '2':
-#             table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
-#             column = input("Enter the column name: ")
-#             print(f"Mean of {column} in {table}: {mean(table, column)}")
-#             print(f"Standard Deviation of {column} in {table}: {standard_deviation(table, column)}")
-#             print(f"Minimum of {column} in {table}: {min(table, column)}")
-#             print(f"Maximum of {column} in {table}: {max(table, column)}")
-#             print(f"Median of {column} in {table}: {median(table, column)}")
-#
-#             # statistical_summary()
-#
-#         elif choice == '3':
-#             data_visualization()
-#
-#         elif choice == '4':
-#             data_viz_flag = False
-#             print("Exiting the program. Goodbye!")
-#
-#         else:
-#             print("Invalid choice. Please try again.")
+if __name__ == "__main__":
+    main_flag = True
+    while main_flag:
+        print("Welcome to the Private School Data Analysis Tool!")
+        print("1. Modify Data")
+        print("2. Statistics")
+        print("3. Data Visualization")
+        print("4. Exit")
+        choice = input("Please choose an option (1-4): ")
+
+        if choice == '1':
+            print("hello")
+            # modify_table()
+
+        elif choice == '2':
+            statistical_summary()
+
+        elif choice == '3':
+            data_visualization()
+
+        elif choice == '4':
+            data_viz_flag = False
+            print("Exiting the program. Goodbye!")
+
+        else:
+            print("Invalid choice. Please try again.")
