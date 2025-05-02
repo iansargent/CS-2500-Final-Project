@@ -1,4 +1,11 @@
-## This is the file for using the database
+# Names: Ian Sargent and Atticus Tarleton
+# Class: CS 2500 Intro to Database Systems
+# Date: May 2nd, 2025
+# Final Project
+
+# Description: This program is a database management system for universities. 
+# It allows users to modify data, perform statistical analysis, and visualize data from the database.
+
 
 # Importing necessary packages
 import sqlite3
@@ -9,13 +16,13 @@ import seaborn as sns
 import math
 
 
-##adding records to superintendent table
+# Adding records to superintendent table
 con = sqlite3.connect('private_schools.db', isolation_level=None)
 cur = con.cursor()
 list = []
 
 
-#table is string, column is string
+# Table is string, column is string
 def mean(table, column):
     count_query = f"select COUNT({column}) from {table}"
     sum_query = f"select sum({column}) from {table}"
@@ -24,7 +31,7 @@ def mean(table, column):
     avg = sum/count
     return avg
 
-
+# Standard deviation function
 def standard_deviation(table, column):
     mean_value = mean(table, column)
     get_vals_query = f"select {column} from {table}"
@@ -40,7 +47,7 @@ def standard_deviation(table, column):
     standard_deviation_total = math.sqrt(running_variance)
     return  standard_deviation_total
 
-
+# Minimum and Maximum functions
 def min(table, column):
     get_vals_query = f"select {column} from {table} order by {column} asc"
     vals = cur.execute(get_vals_query).fetchall()[0][0]
@@ -52,7 +59,7 @@ def max(table, column):
     vals = cur.execute(get_vals_query).fetchall()[0][0]
     return vals
 
-
+# Median function
 def median(table, column):
     count_query = f"select COUNT({column}) from {table}"
     count = cur.execute(count_query).fetchall()[0][0]
@@ -68,6 +75,8 @@ def median(table, column):
         index = count/2 + .5
         return vals[index][0]
 
+
+# Function to prodice "where" statement queries
 def where_function():
     print(f"this creates a where statement. What this means is that you can"
           f"pick a column in a table, and then you filter the data based off of that column.\n"
@@ -117,6 +126,8 @@ def where_function():
     statement = f"{table} WHERE {column} {sign} '{user_value}'"
     return statement
 
+
+# Function returning the columns of a table
 def get_columns(table):
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
     columns_list = []
@@ -125,6 +136,7 @@ def get_columns(table):
     return columns_list
 
 
+# Function to print sample data from a table
 def print_sample_data(table):
     sample_data_query = f"select * from {table}"
     sample_data = cur.execute(sample_data_query).fetchall()
@@ -138,6 +150,8 @@ def print_sample_data(table):
         print(i)
     return sample_data_list
 
+
+# Function to get the type of a column
 def get_column_type(table, column):
     type = ""
     columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
@@ -149,57 +163,8 @@ def get_column_type(table, column):
                 type = "not numeric"
     return type
 
-#join statements
 
-#this code does not do what its supposed to. it instead just finds the mean of the columns
-def mean_of_columns(table):
-    means = []
-    columns = get_columns(table)
-    for i in columns:
-        if get_column_type(table, i) == "numeric":
-            means.append(mean(table, i))
-    return means
-
-def median_of_columns(table):
-    medians = []
-    columns = get_columns(table)
-    for i in columns:
-        if get_column_type(table, i) == "numeric":
-            medians.append(median(table, i))
-    return medians
-
-def std_of_columns(table):
-    std = []
-    columns = get_columns(table)
-    for i in columns:
-        if get_column_type(table, i) == "numeric":
-            std.append(standard_deviation(table, i))
-    return std
-
-def min_of_columns(table):
-    mins = []
-    columns = get_columns(table)
-    for i in columns:
-        if get_column_type(table, i) == "numeric":
-            mins.append(min(table, i))
-    return mins
-
-def max_of_columns(table):
-    maxs = []
-    columns = get_columns(table)
-    for i in columns:
-        if get_column_type(table, i) == "numeric":
-            maxs.append(max(table, i))
-    return maxs
-
-
-# checking to see things work
-# print("mean of each option below")
-# print("number of applicants, percent admitted, incoming class size, average GPA, average SAT, percent STEM")
-# print(max_of_columns("admissions"))
-
-
-
+# Allows for all tables to be joined with superintendents and calls the mean of all numeric columns
 def mean_join_with_superintendents(table):
     super_join_admissions_statement = f"select superintendents.first_name, superintendents.last_name"
 
@@ -211,11 +176,8 @@ def mean_join_with_superintendents(table):
     return_statement = cur.execute(super_join_admissions_statement).fetchall()
     return return_statement
 
-#testing to see if this works
-# print(mean_join_with_superintendents("admissions"))
 
-# modify data function (assuming only numeric data
-#also assuming not superintendent
+# Modify data function for non superintendent table (assuming only numeric data)
 def modify_table_non_super(table):
     columns = get_columns(table)
     columns_numeric = [] #these are the columns that can be modified
@@ -250,10 +212,12 @@ def modify_table_non_super(table):
     print(f"You updated {column} by making its new value {new_info} for the school with school id {school_id_chosen}")
     return "hi"
 
+
+# Modify data function for superintendent table
 def modify_table_super():
-    user_data_q = input("Hello user. Do you need access to the database to find the super_id of the"
+    user_data_query = input("Hello user. Do you need access to the database to find the super_id of the"
                         " superintendent you want modify? (y/n): ")
-    if user_data_q == 'y':
+    if user_data_query == 'y':
         print_sample_data("superintendents")
     columns_to_edit = ['first_name', 'last_name', 'city']
     print("Here are the columns you can modify")
@@ -262,7 +226,6 @@ def modify_table_super():
     super_id = input("Hello user. Please enter the super_id of the superintendent whose data you want to modify: ")
     adding_new_info = True
     column = ""
-    new_info = ""
     while adding_new_info:
         input_columns = True
         while input_columns:
@@ -356,6 +319,7 @@ def statistical_summary():
     else:
         print("Invalid column type. Please choose a numeric or non-numeric column.")
 
+
 # Data Visualization Function
 def data_visualization():
     # Flag to exit the loop once comepleted
@@ -415,6 +379,7 @@ def data_visualization():
             # Exiting the loop
             data_viz_flag = False    
 
+        # For the non-numeric column, create a count plot and pie chart
         elif column_type == "not numeric":
             
             # Creating a dataframe for the count plot and pie chart
@@ -440,20 +405,27 @@ def data_visualization():
             # Exiting the loop
             data_viz_flag = False
         
+        # Invalid column type (not likely)
         else:
             print("Invalid column type. Please choose a numeric or non-numeric column.")
             
-        
-if __name__ == "__main__":
+
+# The main function to run the program
+def main():
+    # Boolean flag to control the main loop
     main_flag = True
+    # Print the welcome message and options
     while main_flag:
         print("Welcome to the Private School Data Analysis Tool!")
         print("1. Modify Data")
         print("2. Statistics")
         print("3. Data Visualization")
         print("4. Exit")
+        
+        # User input for the action choice
         choice = input("Please choose an option (1-4): ")
 
+        # Reassign input selection to the table name
         if choice == '1':
             table = input("\nWhich table would you like to modify?\n1. Admissions\n2. Demographics\n3. Finances\n4. Superintendents\n==> ")
             if table == '1':
@@ -467,21 +439,36 @@ if __name__ == "__main__":
             else:
                 print("Invalid choice. Please choose a valid table.")
 
-            
+            # If the table is "superintendents", call the modify_table_super function and add_row
             if table == "superintendents":
                 modify_table_super()
+                add_row(table)
+            
+            # Otherwise, call the modify_table_non_super function and add_row
             else:
                 modify_table_non_super(table)
+                add_row(table)
 
+        # If the user chooses statistics, call the statistical_summary function
         elif choice == '2':
             statistical_summary()
-
+        
+        # If the user chooses data visualization, call the data_visualization function
         elif choice == '3':
             data_visualization()
 
+        # If the user chooses to exit, set the main_flag to False
         elif choice == '4':
             main_flag = False
             print("Exiting the program. Goodbye!")
 
+        # Input validation for invalid choices
         else:
             print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    # Run the main function
+    main()
+    # Close the database connection
+    con.close()
