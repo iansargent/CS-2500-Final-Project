@@ -248,7 +248,7 @@ def modify_table_super():
 
 
 def add_row(table):
-    add_row = input("do you want to add a row y/n:")
+    add_row = input("do you want to add a row y/n: ")
     if add_row == "y":
         cols = get_columns(table)
         user_inputs = []
