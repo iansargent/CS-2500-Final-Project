@@ -100,7 +100,7 @@ def where_function():
         print(i)
     column = input("What column are you comparing to: ")
     type = ""
-    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    columns_all = (cur.execute(f"PRAGMA table_info({table})").fetchall())
     for i in columns_all:
         if i[1] == column:
             if i[2] != "":
@@ -129,7 +129,7 @@ def where_function():
 
 # Function returning the columns of a table
 def get_columns(table):
-    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    columns_all = (cur.execute(f"PRAGMA table_info({table})").fetchall())
     columns_list = []
     for i in columns_all:
         columns_list.append(i[1])
@@ -138,10 +138,10 @@ def get_columns(table):
 
 # Function to print sample data from a table
 def print_sample_data(table):
-    sample_data_query = f"select * from {table}"
+    sample_data_query = f"SELECT * FROM {table}"
     sample_data = cur.execute(sample_data_query).fetchall()
     sample_data_list = []
-    print("column names: ", end = "  ")
+    print("Column Names: ", end = "  ")
     for i in get_columns(table):
         print(i, end=" ")
     print("")
@@ -154,7 +154,7 @@ def print_sample_data(table):
 # Function to get the type of a column
 def get_column_type(table, column):
     type = ""
-    columns_all = (cur.execute(f"pragma table_info({table})").fetchall())
+    columns_all = (cur.execute(f"PRAGMA table_info({table})").fetchall())
     for i in columns_all:
         if i[1] == column:
             if i[2] != "":
@@ -166,20 +166,26 @@ def get_column_type(table, column):
 
 # Allows for all tables to be joined with superintendents and calls the mean of all numeric columns
 def mean_join_with_superintendents(table):
-    super_join_admissions_statement = f"select superintendents.first_name, superintendents.last_name"
+    super_join_admissions_statement = f"SELECT superintendents.first_name, superintendents.last_name"
 
     columns = get_columns(table)
+    
     for i in columns:
         if get_column_type(table, i) == "numeric":
-            super_join_admissions_statement += f",sum({i})/count(school_id)"
-    super_join_admissions_statement += f"from {table} left join superintendents on {table}.super_id == superintendents.super_id group by superintendents.super_id"
+            super_join_admissions_statement += f",ROUND(SUM({i})/COUNT(school_id), 2)"
+    
+    super_join_admissions_statement += f"FROM {table} LEFT JOIN superintendents ON {table}.super_id == superintendents.super_id GROUP BY superintendents.super_id"
     return_statement = cur.execute(super_join_admissions_statement).fetchall()
-    print("this is the averages of these columns : ", end="  ")
+    
+    print("These are the averages of each column: ", end="  ")
+    
     for i in get_columns(table):
         print(i, end=" ")
     print("for each superintendent")
+    
     for i in return_statement:
         print(i)
+    
     return return_statement
 
 
@@ -187,7 +193,7 @@ def mean_join_with_superintendents(table):
 def modify_table_non_super(table):
     columns = get_columns(table)
     columns_numeric = [] #these are the columns that can be modified
-    print("here are the columns you can modify")
+    print("Here are the columns you can modify")
     for i in columns:
         if get_column_type(table, i) == "numeric":
             columns_numeric.append(i)
@@ -216,6 +222,7 @@ def modify_table_non_super(table):
         except sqlite3.OperationalError:
             print("Data was entered incorrectly. Please try again.")
     print(f"You updated {column} by making its new value {new_info} for the school with school id {school_id_chosen}")
+    
     return "hi"
 
 
@@ -254,22 +261,26 @@ def modify_table_super():
 
 
 def add_row(table):
-    add_row = input("do you want to add a row y/n: ")
+    add_row = input("Do you want to add a row y/n: ")
+    
     if add_row == "y":
         cols = get_columns(table)
         user_inputs = []
         make_new_line = (f"INSERT INTO {table}(")
+        
         for i in cols:
             user_input = input(f"Input a value for column {i}: ")
             make_new_line += f"{i},"
             user_inputs.append(user_input)
         make_new_line = make_new_line[:-1]
         make_new_line += ") VALUES ("
+        
         for i in user_inputs:
             make_new_line += f"'{i}',"
         make_new_line = make_new_line[:-1]
         make_new_line+=")"
         cur.execute(make_new_line)
+    
     return "poop :)"
 
 # Statistical summary function
