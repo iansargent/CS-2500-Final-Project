@@ -237,7 +237,7 @@ def modify_table_non_super(table):
             else:
                 input_columns = False
         new_info = input(f"what would you like to set {column} to: ")
-        update_info_to = f"UPDATE {table} SET {column} = '{new_info}' WHERE school_id = '{school_id_chosen}';"
+        update_info_to = f'''UPDATE {table} SET {column} = "{new_info}" WHERE school_id = "{school_id_chosen}";'''
         try:
             cur.execute(update_info_to)
             adding_new_info = False
@@ -255,7 +255,7 @@ def modify_table_super():
     print("Here are the columns you can modify")
     for i in columns_to_edit:
         print(i)
-    school_id_chosen = input("Hello user. Please enter the super_id of the superintendent whose data you want to modify: ")
+    super_id = input("Hello user. Please enter the super_id of the superintendent whose data you want to modify: ")
     adding_new_info = True
     column = ""
     new_info = ""
@@ -267,15 +267,16 @@ def modify_table_super():
                 print("Please input a column you can modify")
             else:
                 input_columns = False
-        new_info = input(f"What would you like to set {column} to: ")
-        update_info_to = f"UPDATE superintendent SET {column} = '{new_info}' WHERE super_id = '{school_id_chosen}';"
+        new_value = input(f"What would you like to set {column} to: ")
         try:
-            cur.execute(update_info_to)
-            adding_new_info = False
-        except sqlite3.OperationalError:
-            print("Data was entered incorrectly, try again")
-    print(f"You updated {column} by making its new value {new_info} for the superintendent with super_id {school_id_chosen}")
-    return "hi"
+            # This uses parameter substitution to avoid syntax issues and SQL injection
+            query = f"UPDATE superintendents SET {column} = ? WHERE super_id = ?"
+            cur.execute(query, (new_value, super_id))
+            print(f"Updated {column} to '{new_value}' for superintendents with super_id {super_id}.")
+            break
+        except sqlite3.OperationalError as e:
+            print("OperationalError occurred:", e)
+            print("Please double-check your input and try again.")
 
 
 
