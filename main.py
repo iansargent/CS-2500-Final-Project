@@ -221,7 +221,7 @@ def modify_table_non_super(table):
             columns_numeric.append(i)
             print(i)
     user_data_q = input("Hello user. Do you need access to the database to find the school id of the"
-          "school you want modify (y/n): ")
+          " school you want modify (y/n): ")
     if user_data_q == 'y':
         print_sample_data(table)
     school_id_chosen = input("Hello user. Please enter the school id of the school whose data you want to modify: ")
