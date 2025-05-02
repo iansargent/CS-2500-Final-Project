@@ -248,7 +248,7 @@ def modify_table_non_super(table):
 
 def modify_table_super():
     user_data_q = input("Hello user. do you need access to the database to find the super_id of the"
-                        "superintendent you want modify (y/n): ")
+                        " superintendent you want modify (y/n): ")
     if user_data_q == 'y':
         print_sample_data("superintendents")
     columns_to_edit = ['first_name', 'last_name', 'city']
@@ -262,13 +262,13 @@ def modify_table_super():
     while adding_new_info:
         input_columns = True
         while input_columns:
-            column = input("which info would you like to edit: ")
+            column = input("which column would you like to edit: ")
             if column not in columns_to_edit:
                 print("please input a column you can modify")
             else:
                 input_columns = False
         new_info = input(f"what would you like to set {column} to: ")
-        update_info_to = f"UPDATE superintendent SET {column} = '{new_info}' WHERE school_id = '{school_id_chosen}';"
+        update_info_to = f"UPDATE superintendent SET {column} = {new_info} WHERE school_id = '{school_id_chosen}';"
         try:
             cur.execute(update_info_to)
             adding_new_info = False
