@@ -229,35 +229,56 @@ def modify_table_non_super(table):
 def add_row():
     return "poop :)"
 
-
+# Statistical summary function
 def statistical_summary():
-    table = input("Enter the table name (admissions, demographics, finances, superintendents): ")
-    available_columns = get_columns(table)
-    print("\nAvailable columns:\n_________________")
+    print("\nChoose a table to analyze:\n1. Admissions\n2. Demographics\n3. Finances\n4. Superintendents")
+    # User input for the table of interest
+    table_choice = input("\nEnter the number corresponding to your choice (1-4): ")
+    # Reassign input selection to the table name
+    if table_choice == '1': 
+        table = "admissions"
+    elif table_choice == '2':
+        table = "demographics"
+    elif table_choice == '3':
+        table = "finances"
+    elif table_choice == '4':
+        table = "superintendents"
+    else:
+        print("Invalid choice. Please choose a valid table.")
     
+    # Print the columns of the selected table
+    available_columns = get_columns(table)
+    # Printing available columns
+    print("\nAvailable columns:\n_________________")
     for column in available_columns:
         print(column)
     
+    # User input for the column of interest
+    print("\nChoose a column to analyze:")
     column = input("\nEnter the column name: ")
+    # Get column type for tailored statistics
     col_type = get_column_type(table, column)
     
+    # If the column is non-numeric, calculate and print categorical statistics (using sqlite3 queries)
     if col_type == "not numeric":
         print(f"\nStatistics for {column} in {table}:")
-        print("_______________________________")
-        print(f"\nCount: {cur.execute(f'SELECT COUNT({column}) FROM {table}').fetchone()[0]}")
-        print(f"\nUnique Values: {cur.execute(f'SELECT COUNT(DISTINCT {column}) FROM {table}').fetchone()[0]}")
-        print(f"\nMost Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) DESC LIMIT 1').fetchone()}")
-        print(f"\nLeast Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) ASC LIMIT 1').fetchone()}\n")
+        print("-------------------------------")
+        print(f"Count: {cur.execute(f'SELECT COUNT({column}) FROM {table}').fetchone()[0]}")
+        print(f"Unique Values: {cur.execute(f'SELECT COUNT(DISTINCT {column}) FROM {table}').fetchone()[0]}")
+        print(f"Most Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) DESC LIMIT 1').fetchone()}")
+        print(f"Least Common Value: {cur.execute(f'SELECT {column}, COUNT(*) FROM {table} GROUP BY {column} ORDER BY COUNT(*) ASC LIMIT 1').fetchone()}\n")
 
+    # If the column is numeric, calculate and print numerical statistics
     elif col_type == "numeric":
         print(f"\nStatistics for {column} in {table}:")
-        print("_______________________________")
-        print(f"\nMean: {mean(table, column)}")
-        print(f"\nStandard Deviation: {standard_deviation(table, column):.2f}")
-        print(f"\nMinimum: {min(table, column)}")
-        print(f"\nMaximum: {max(table, column)}")
-        print(f"\nMedian: {median(table, column)}\n")
+        print("--------------------------------")
+        print(f"Mean: {mean(table, column)}")
+        print(f"Standard Deviation: {standard_deviation(table, column):.2f}")
+        print(f"Minimum: {min(table, column)}")
+        print(f"Maximum: {max(table, column)}")
+        print(f"Median: {median(table, column)}\n")
     
+    # If the column type is neither numeric nor non-numeric, print an error message (not likely)
     else:
         print("Invalid column type. Please choose a numeric or non-numeric column.")
 
@@ -286,7 +307,7 @@ def data_visualization():
         available_columns = get_columns(table_name)
         
         # Print the columns
-        print("\nAvailable columns:\n_________________")
+        print("\nAvailable columns:\n-----------------")
         for column in available_columns:
             print(column)
         
@@ -370,7 +391,7 @@ if __name__ == "__main__":
             data_visualization()
 
         elif choice == '4':
-            data_viz_flag = False
+            main_flag = False
             print("Exiting the program. Goodbye!")
 
         else:
